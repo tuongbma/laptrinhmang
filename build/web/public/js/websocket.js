@@ -1,0 +1,98 @@
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+var username = document.getElementById("username").innerHTML;
+
+// WEB Socket
+var wsUri = "ws://192.168.98.114:8080/laptrinhmang/websocket?username=" + username;
+console.log(wsUri);
+websocket = new WebSocket(wsUri);
+
+//Connected to server
+websocket.onopen = function (ev) {
+    console.log('Connected to server ');
+}
+
+//Connection close
+websocket.onclose = function (ev) {
+    console.log('Disconnected');
+};
+
+var fromUser;
+//Message Receved
+websocket.onmessage = function (ev) {
+
+    var data = JSON.parse(ev.data);
+    if (data['type'] == 'challenge') {
+        fromUser = data['fromUser'];
+        $(".popup > p").text("Challenge from " + fromUser);
+        $(".overlay").css("display", "block");
+        window.setTimeout(function () {
+            console.log("timeout");
+            var data = {
+                "type": "confirm",
+                "confirmResult": "timeout",
+                "toUser": fromUser
+            }
+            websocket.send(JSON.stringify(data));
+            $(".overlay").css("display", "none");
+
+        }, 5000);
+
+
+    }else if (data['type'] == 'confirm') {
+        if (data['confirmResult'] == 'yes')
+            window.location = "ranking";
+        else if (data['confirmResult'] == 'no')
+            alert("Challenge Denied !!!");
+        else
+            alert("Challenge Timeout !!!");
+    }else if(data['type'] == 'toggleStatus'){
+        var toggleUser = data['toggleUser'];
+        if($("#" + toggleUser + " > .button").css("display") == "none"){
+            $("#" + toggleUser + " > .button").css("display", "block");
+            $("#" + toggleUser + " > .imgStatus img").attr("src", "./public/img/online.png")
+        }else{
+            $("#" + toggleUser + " > .button").css("display", "none");
+            $("#" + toggleUser + " > .imgStatus img").attr("src", "./public/img/offline.png")
+        }
+    }
+};
+
+//Error
+websocket.onerror = function (ev) {
+    console.log('Error ' + ev.data);
+};
+
+function challenge(toUser) {
+
+    var data = {
+        "type": "challenge",
+        "toUser": toUser
+    }
+    websocket.send(JSON.stringify(data));
+}
+
+function confirmChallenge(value) {
+    if (value == "ok") {
+        var data = {
+            "type": "confirm",
+            "confirmResult": "yes",
+            "toUser": fromUser
+        }
+        websocket.send(JSON.stringify(data));
+        window.location = "ranking";
+    } else {
+        var data = {
+            "type": "confirm",
+            "confirmResult": "no",
+            "toUser": fromUser
+        }
+        websocket.send(JSON.stringify(data));
+    }
+    $(".overlay").css("display", "none");
+
+}
