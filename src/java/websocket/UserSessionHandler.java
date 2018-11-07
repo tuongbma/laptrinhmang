@@ -23,6 +23,7 @@ public class UserSessionHandler {
     public static Map<Session, String> mapSession = new HashMap<>();
     
     public static void addSession(Session session, String username) {
+        toggleStatus(username);
         mapSession.put(session, username);
     }
     
@@ -42,7 +43,22 @@ public class UserSessionHandler {
     
 
     public static void remove(Session session) {
+        String username = mapSession.get(session);
         mapSession.remove(session);
+        toggleStatus(username);
+    }
+    
+    public static void toggleStatus(String username){
+        JSONObject JSONrespone = new JSONObject();
+        JSONrespone.put("toggleUser", username);
+        JSONrespone.put("type", "toggleStatus");
+        for(Session sess: mapSession.keySet()){
+            try {
+                sess.getBasicRemote().sendText(JSONrespone.toString());
+            } catch (IOException ex) {
+                Logger.getLogger(UserSessionHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     public static Session getSessionByUsername(String userName){

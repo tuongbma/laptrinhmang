@@ -265,11 +265,11 @@
 
                                         </c:when>
                                         <c:otherwise>
-                                            <tr>
+                                            <tr id="${u.getUsername()}">
                                                 <td><c:out value="${u.getID()}"/></td>
                                                 <td><c:out value="${u.getUsername()}"/></td>
                                                 <td><c:out value="${u.getEmail()}"/></td>
-                                                <td>
+                                                <td class="imgStatus">
                                                     <c:if test="${u.getStatus() == 1}">
                                                         <img src="./public/img/online.png" width="35%">
                                                     </c:if>
@@ -277,11 +277,12 @@
                                                         <img src="./public/img/offline.png" width="35%">
                                                     </c:if>
                                                 </td>
-                                                <c:if test="${u.getStatus() == 1}">
-                                                    <td onclick="challenge('<c:out value="${u.getUsername()}"/>')">
-                                                        <button>OK</button>
-                                                    </td>
-                                                </c:if>
+                                                
+                                                 
+
+                                                <td class="button" <c:if test="${u.getStatus() == 0}">style="display:none;" </c:if> onclick="challenge('<c:out value="${u.getUsername()}"/>')" >
+                                                    <button>OK</button>
+                                                </td>
                                             </tr>
                                         </c:otherwise>
                                     </c:choose>

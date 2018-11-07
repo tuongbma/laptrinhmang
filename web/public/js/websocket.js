@@ -43,15 +43,22 @@ websocket.onmessage = function (ev) {
         }, 5000);
 
 
-    }
-
-    if (data['type'] == 'confirm') {
+    }else if (data['type'] == 'confirm') {
         if (data['confirmResult'] == 'yes')
             window.location = "ranking";
         else if (data['confirmResult'] == 'no')
             alert("Challenge Denied !!!");
         else
             alert("Challenge Timeout !!!");
+    }else if(data['type'] == 'toggleStatus'){
+        var toggleUser = data['toggleUser'];
+        if($("#" + toggleUser + " > .button").css("display") == "none"){
+            $("#" + toggleUser + " > .button").css("display", "block");
+            $("#" + toggleUser + " > .imgStatus img").attr("src", "./public/img/online.png")
+        }else{
+            $("#" + toggleUser + " > .button").css("display", "none");
+            $("#" + toggleUser + " > .imgStatus img").attr("src", "./public/img/offline.png")
+        }
     }
 };
 
