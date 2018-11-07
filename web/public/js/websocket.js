@@ -54,11 +54,13 @@ websocket.onmessage = function (ev) {
             alert("Challenge Timeout !!!");
     } else if (data['type'] == 'toggleStatus') {
         var toggleUser = data['toggleUser'];
-        if ($("#" + toggleUser + " > .button").css("display") == "none") {
-            $("#" + toggleUser + " > .button").css("display", "block");
+        if ($("#" + toggleUser + " > .button1").css("display") == "block") {
+            $("#" + toggleUser + " > .button1").css("display","none");
+            $("#" + toggleUser + " > .button2").css("display","block");
             $("#" + toggleUser + " > .imgStatus img").attr("src", "./public/img/online.png")
         } else {
-            $("#" + toggleUser + " > .button").css("display", "none");
+            $("#" + toggleUser + " > .button2").css("display","none");
+            $("#" + toggleUser + " > .button1").css("display","block");
             $("#" + toggleUser + " > .imgStatus img").attr("src", "./public/img/offline.png")
         }
     }
