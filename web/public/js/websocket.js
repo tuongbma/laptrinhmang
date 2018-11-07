@@ -40,19 +40,27 @@ websocket.onmessage = function (ev) {
                 }
                 websocket.send(JSON.stringify(data));
                 $(".overlay1").css("display", "none");
-            }
-            else stop = 0;
+            } else
+                stop = 0;
         }, 5000);
-    }
-
-    if (data['type'] == 'confirm') {
+    } else if (data['type'] == 'confirm') {
         $(".overlay2").css("display", "none");
+
         if (data['confirmResult'] == 'yes')
             window.location = "ranking";
         else if (data['confirmResult'] == 'no')
             alert("Challenge Denied !!!");
         else if (data['confirmResult'] == 'timeout')
             alert("Challenge Timeout !!!");
+    } else if (data['type'] == 'toggleStatus') {
+        var toggleUser = data['toggleUser'];
+        if ($("#" + toggleUser + " > .button").css("display") == "none") {
+            $("#" + toggleUser + " > .button").css("display", "block");
+            $("#" + toggleUser + " > .imgStatus img").attr("src", "./public/img/online.png")
+        } else {
+            $("#" + toggleUser + " > .button").css("display", "none");
+            $("#" + toggleUser + " > .imgStatus img").attr("src", "./public/img/offline.png")
+        }
     }
 };
 
@@ -91,5 +99,4 @@ function confirmChallenge(value) {
         websocket.send(JSON.stringify(data));
     }
     $(".overlay").css("display", "none");
-
 }
