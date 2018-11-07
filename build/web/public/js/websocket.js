@@ -5,9 +5,9 @@
  */
 
 var username = document.getElementById("username").innerHTML;
-
+var stop = 0;
 // WEB Socket
-var wsUri = "ws://192.168.98.114:8080/laptrinhmang/websocket?username=" + username;
+var wsUri = "ws://localhost:8080/laptrinhmang/websocket?username=" + username;
 console.log(wsUri);
 websocket = new WebSocket(wsUri);
 
@@ -28,34 +28,36 @@ websocket.onmessage = function (ev) {
     var data = JSON.parse(ev.data);
     if (data['type'] == 'challenge') {
         fromUser = data['fromUser'];
-        $(".popup > p").text("Challenge from " + fromUser);
-        $(".overlay").css("display", "block");
+        $("#challenge-popup > p").text("Challenge from " + fromUser);
+        $(".overlay1").css("display", "block");
         window.setTimeout(function () {
-            console.log("timeout");
-            var data = {
-                "type": "confirm",
-                "confirmResult": "timeout",
-                "toUser": fromUser
-            }
-            websocket.send(JSON.stringify(data));
-            $(".overlay").css("display", "none");
-
+            if (stop == 0) {
+                console.log("timeout");
+                var data = {
+                    "type": "confirm",
+                    "confirmResult": "timeout",
+                    "toUser": fromUser
+                }
+                websocket.send(JSON.stringify(data));
+                $(".overlay1").css("display", "none");
+            } else
+                stop = 0;
         }, 5000);
+    } else if (data['type'] == 'confirm') {
+        $(".overlay2").css("display", "none");
 
-
-    }else if (data['type'] == 'confirm') {
         if (data['confirmResult'] == 'yes')
             window.location = "ranking";
         else if (data['confirmResult'] == 'no')
             alert("Challenge Denied !!!");
-        else
+        else if (data['confirmResult'] == 'timeout')
             alert("Challenge Timeout !!!");
-    }else if(data['type'] == 'toggleStatus'){
+    } else if (data['type'] == 'toggleStatus') {
         var toggleUser = data['toggleUser'];
-        if($("#" + toggleUser + " > .button").css("display") == "none"){
+        if ($("#" + toggleUser + " > .button").css("display") == "none") {
             $("#" + toggleUser + " > .button").css("display", "block");
             $("#" + toggleUser + " > .imgStatus img").attr("src", "./public/img/online.png")
-        }else{
+        } else {
             $("#" + toggleUser + " > .button").css("display", "none");
             $("#" + toggleUser + " > .imgStatus img").attr("src", "./public/img/offline.png")
         }
@@ -68,7 +70,9 @@ websocket.onerror = function (ev) {
 };
 
 function challenge(toUser) {
-
+    stop = 0;
+    $("#loading-popup > p").text("Waiting for " + toUser);
+    $(".overlay2").css("display", "block");
     var data = {
         "type": "challenge",
         "toUser": toUser
@@ -77,6 +81,7 @@ function challenge(toUser) {
 }
 
 function confirmChallenge(value) {
+    stop = 1;
     if (value == "ok") {
         var data = {
             "type": "confirm",
@@ -94,5 +99,4 @@ function confirmChallenge(value) {
         websocket.send(JSON.stringify(data));
     }
     $(".overlay").css("display", "none");
-
 }

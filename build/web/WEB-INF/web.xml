@@ -60,4 +60,12 @@ http://java.sun.com/jsp/jstl/core"
         <url-pattern>/websocket</url-pattern>
     </servlet-mapping>-->
     
+    <servlet>
+        <servlet-name>game</servlet-name>
+        <servlet-class>controller.GameController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>game</servlet-name>
+        <url-pattern>/game</url-pattern>
+    </servlet-mapping>
 </web-app>
