@@ -35,8 +35,6 @@ public class PlayerWebsocketEndpoint {
 
             UserSessionHandler.addSession(session, username);
             System.out.println("Number of session = " + UserSessionHandler.getNoSession());
-
-
         } else {
             System.out.println("Conection was created without username!!");
         }
