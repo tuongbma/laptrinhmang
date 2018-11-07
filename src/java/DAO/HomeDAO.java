@@ -8,6 +8,7 @@ package DAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,5 +38,36 @@ public class HomeDAO extends DBConnection {
 
         return listUser;
     }
+    
+    public String getWinningRate(int ID){
+        Statement state;
+        try {
+            int winMatches = 0, sumMatches = 0;
+            state = this.conn.createStatement();
+            String sql = "SELECT COUNT(*) AS winMatches FROM matches WHERE result =" + ID;
+            ResultSet resultSet = state.executeQuery(sql);
+            while(resultSet.next()){
+                winMatches = resultSet.getInt("winMatches");
+            }
+            sql = "SELECT COUNT(*) AS sumMatches FROM `matches` WHERE ID_player1 =" + ID +" OR ID_player2 = " + ID;
+            resultSet = state.executeQuery(sql);
+            while(resultSet.next()){
+                sumMatches = resultSet.getInt("sumMatches");
+            }
+            if(sumMatches != 0){
+                float temp = (float) winMatches/sumMatches;
+                DecimalFormat decimalFormat = new DecimalFormat("#.00");
+                if (temp == 0) return "0";
+                String result = decimalFormat.format(temp*100);
+                return result;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(HomeDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "0";
+    }
+    
+    
     
 }
