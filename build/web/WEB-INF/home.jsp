@@ -64,6 +64,7 @@
                 background: rgba(0,0,0,.85);
                 z-index: 10000;
             }
+            
 
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -314,16 +315,28 @@
 
             <!-- End Page Container -->
         </div>
-        <div class="overlay">
+        <div class="overlay overlay1">
             <div class="popup">
+               <div id = "challenge-popup"
                 <p class="infor"></p>
                 <div class="text-right">
                     <button class="btn btn-cancel" onclick="confirmChallenge('cancel');">Cancel</button>
                     <button class="btn btn-primary" onclick="confirmChallenge('ok');">OK</button>
                 </div>
+               </div>
             </div>
         </div>
-
+        
+        <div class="overlay overlay2">
+            <div class="popup">
+                <div id = "loading-popup"
+                <p class="loading"></p>
+                <div class="text-right">
+                    <img src="./public/img/loading.gif">
+                </div>
+                </div>
+            </div>
+        </div>
 
         <br>
 
@@ -358,11 +371,6 @@
                 } else {
                     x.className = x.className.replace(" w3-show", "");
                 }
-            }
-
-            function challenge(id1, id2) { //id1 for who challenges, id2 for who is challenged
-
-                alert('Wanna challenge ' + id2 + " ???")
             }
         </script>
         <script src="./public/js/websocket.js">

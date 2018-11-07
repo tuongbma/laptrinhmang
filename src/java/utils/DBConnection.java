@@ -22,7 +22,7 @@ public class DBConnection {
         
         String url = "jdbc:mysql://localhost:3306/laptrinhmang"; //MySQL URL and followed by the database name
         String username = "root"; //MySQL username
-        String password = "root"; //MySQL password
+        String password = ""; //MySQL password
 
         try {
             try {
