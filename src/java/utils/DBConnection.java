@@ -14,12 +14,15 @@ public class DBConnection {
     public Connection conn = null;
     public DBConnection(){
         this.createConnection();
+        if(this.conn == null){
+            System.out.println("NULLLLLLLLLLLLLLLLL");
+        }
     }
     public void createConnection() {
         
         String url = "jdbc:mysql://localhost:3306/laptrinhmang"; //MySQL URL and followed by the database name
         String username = "root"; //MySQL username
-        String password = ""; //MySQL password
+        String password = "root"; //MySQL password
 
         try {
             try {
