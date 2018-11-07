@@ -7,7 +7,11 @@ package controller;
 
 import DAO.HomeDAO;
 import java.io.IOException;
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,15 +36,9 @@ public class HomeController extends Controller{
             HomeDAO homeDAO = new HomeDAO();
             ArrayList<User> listUser = new ArrayList<>();
             listUser = homeDAO.getListUser();
-            
             String[] onlineUser = UserSessionHandler.getOnlineUser();
             for(User user: listUser){
                 user.setStatus(0);
-//                if(user.getUsername().equals(((User) req.getSession().getAttribute("user")).getUsername())){
-//                    listUser.remove(user);
-//                    continue;
-//                }
-                
                 for(String username: onlineUser){
                     if(user.getUsername().equals(username)){
                         user.setStatus(1);
@@ -48,7 +46,11 @@ public class HomeController extends Controller{
                     }
                 }
             }
-                    
+            Map<Integer,String> winningRateMap = new HashMap<>();
+            for (User u : listUser){
+                winningRateMap.put(u.getID(), homeDAO.getWinningRate(u.getID()));
+            }
+            req.setAttribute("winningRateMap", winningRateMap);
             req.setAttribute("listUser", listUser);
             req.getRequestDispatcher("WEB-INF/home.jsp").forward(req, resp);
         } 

@@ -4,6 +4,8 @@
     Author     : buith
 --%>
 
+<%@page import="java.util.Map"%>
+<%@page import="DAO.HomeDAO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.User"%>
@@ -75,6 +77,8 @@
             User user = (User) request.getSession().getAttribute("user");
 
             ArrayList<User> listUser = (ArrayList<User>) request.getAttribute("listUser");
+            
+            Map<Integer,Float> winningRateMap = (Map<Integer,Float>) request.getAttribute("winningRateMap");
 //            System.out.println("Number of user = ");
 %>
         <!-- Navbar -->
@@ -269,7 +273,7 @@
                                             <tr id="${u.getUsername()}">
                                                 <td><c:out value="${u.getID()}"/></td>
                                                 <td><c:out value="${u.getUsername()}"/></td>
-                                                <td><c:out value="${u.getEmail()}"/></td>
+                                                <td><c:out value="${winningRateMap.get(u.getID())}"/> % </td>
                                                 <td class="imgStatus">
                                                     <c:if test="${u.getStatus() == 1}">
                                                         <img src="./public/img/online.png" width="35%">
