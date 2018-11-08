@@ -30,7 +30,9 @@ public class HomeDAO extends DBConnection {
             String sql = "SELECT * FROM players WHERE username <> 'admin'";
             ResultSet resultSet = state.executeQuery(sql);
             while(resultSet.next()){
-                listUser.add(new User(resultSet.getInt("ID"),resultSet.getString("name"),resultSet.getString("email") , resultSet.getString("username"), resultSet.getString("password")));
+                listUser.add(new User(resultSet.getInt("ID"),resultSet.getString("name"),resultSet.getString("email") , resultSet.getString("username"), resultSet.getString("password"),
+                                resultSet.getString("image")));
+                System.out.println("image: " + resultSet.getString("image"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(HomeDAO.class.getName()).log(Level.SEVERE, null, ex);

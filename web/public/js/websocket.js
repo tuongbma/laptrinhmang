@@ -22,12 +22,14 @@ websocket.onclose = function (ev) {
 };
 
 var fromUser;
+var key;
 //Message Receved
 websocket.onmessage = function (ev) {
 
     var data = JSON.parse(ev.data);
     if (data['type'] == 'challenge') {
         fromUser = data['fromUser'];
+        key = data['key'];
         $("#challenge-popup > p").text("Challenge from " + fromUser);
         $(".overlay1").css("display", "block");
         window.setTimeout(function () {
@@ -47,18 +49,20 @@ websocket.onmessage = function (ev) {
         $(".overlay2").css("display", "none");
 
         if (data['confirmResult'] == 'yes')
-            window.location = "ranking";
+            window.location = "game?match=" + data['key'];
         else if (data['confirmResult'] == 'no')
             alert("Challenge Denied !!!");
         else if (data['confirmResult'] == 'timeout')
             alert("Challenge Timeout !!!");
     } else if (data['type'] == 'toggleStatus') {
         var toggleUser = data['toggleUser'];
-        if ($("#" + toggleUser + " > .button").css("display") == "none") {
-            $("#" + toggleUser + " > .button").css("display", "block");
+        if ($("#" + toggleUser + " > .button1").css("display") == "block") {
+            $("#" + toggleUser + " > .button1").css("display","none");
+            $("#" + toggleUser + " > .button2").css("display","block");
             $("#" + toggleUser + " > .imgStatus img").attr("src", "./public/img/online.png")
         } else {
-            $("#" + toggleUser + " > .button").css("display", "none");
+            $("#" + toggleUser + " > .button2").css("display","none");
+            $("#" + toggleUser + " > .button1").css("display","block");
             $("#" + toggleUser + " > .imgStatus img").attr("src", "./public/img/offline.png")
         }
     }
@@ -89,7 +93,7 @@ function confirmChallenge(value) {
             "toUser": fromUser
         }
         websocket.send(JSON.stringify(data));
-        window.location = "ranking";
+        window.location = "game?match=" + key;
     } else {
         var data = {
             "type": "confirm",

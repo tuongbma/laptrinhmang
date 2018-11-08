@@ -27,7 +27,6 @@ public class PlayerWebsocketEndpoint {
     @OnOpen
     public void onOpen(Session session) {
         Map<String, List<String>> params = session.getRequestParameterMap();
-
         if (params.get("username") != null) {
             System.out.println(params.toString());
             String username = params.get("username").get(0);

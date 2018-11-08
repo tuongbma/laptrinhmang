@@ -3,108 +3,15 @@
     Created on : Nov 2, 2018, 9:44:53 AM
     Author     : buith
 --%>
-
-<%@page import="java.util.Map"%>
-<%@page import="DAO.HomeDAO"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="java.util.ArrayList"%>
-<%@page import="model.User"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-        <title>Spring Login Example</title>
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
-        <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <style>
-            html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
-            table {
-                font-family: arial, sans-serif;
-                border-collapse: collapse;
-                width: 100%;
-
-            }
-
-            td, th {
-                border: 1px solid #dddddd;
-                text-align: left;
-                padding: 8px;
-            }
-
-            tr:nth-child(even) {
-                background-color: #99b2c1;
-
-            }
-            .popup {
-                width: 33.333333%;
-                padding: 15px;
-                left: 0;
-                margin-left: 33.333333%;
-                border: 1px solid #ccc;
-                border-radius: 10px;
-                background: white;
-                position: absolute;
-                top: 15%;
-                box-shadow: 5px 5px 5px #000;
-                z-index: 10001;
-                text-align: center;
-                font-size: 20px; 
-
-            }
-
-            .overlay {
-                display: none;
-                position: fixed;
-                width: 100%;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0,0,0,.85);
-                z-index: 10000;
-            }
-            
-
-        </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    </head>
-    <body class="w3-theme-l5">
-
-        <%
-            User user = (User) request.getSession().getAttribute("user");
+<%@include file="header.jsp"%>
+        
+<%
 
             ArrayList<User> listUser = (ArrayList<User>) request.getAttribute("listUser");
-            
-            Map<Integer,Float> winningRateMap = (Map<Integer,Float>) request.getAttribute("winningRateMap");
+
+            Map<Integer, Float> winningRateMap = (Map<Integer, Float>) request.getAttribute("winningRateMap");
 //            System.out.println("Number of user = ");
 %>
-        <!-- Navbar -->
-
-        <div class="w3-top">
-            <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
-                <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-                <a href="home" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
-                <a href="ranking" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Ranking"><i class="fa fa-trophy"></i></a>
-                <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
-                <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
-
-                <div class="w3-dropdown-hover w3-hide-small">
-                    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">3</span></button>     
-                    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-                        <a href="#" class="w3-bar-item w3-button">One new friend request</a>
-                        <a href="#" class="w3-bar-item w3-button">John Doe posted on your wall</a>
-                        <a href="#" class="w3-bar-item w3-button">Jane likes your post</a>
-                    </div>
-                </div>
-                <div style="float: right">
-                    <p>Welcome <span id="username"><%= user.getUsername()%></span>, <a href="logout">Log out </a><p>
-                </div>
-            </div>
-        </div>
-
         <!-- Navbar on small screens -->
         <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">
             <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
@@ -124,7 +31,7 @@
                     <div class="w3-card w3-round w3-white">
                         <div class="w3-container">
                             <h4 class="w3-center">My Profile</h4>
-                            <p class="w3-center"><img src="./public/img/tuongbma.jpg" style="height:200px;width:200px" alt="Avatar"></p>
+                            <p class="w3-center"><img src="<%= user.getImage()%>" style="height:200px;width:200px" alt="Avatar"></p>
                             <hr>
                             <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
                             <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
@@ -205,7 +112,7 @@
                                 <div class="w3-container w3-padding">
                                     <h6 class="w3-opacity">Social Media template by w3.css</h6>
                                     <p contenteditable="true" class="w3-border w3-padding">Status: Feeling Blue</p>
-                                    <button type="button" class="w3-button w3-theme"><i class="fa fa-pencil"></i> Â Post</button> 
+                                    <button type="button" class="w3-button w3-theme"><i class="fa fa-pencil"></i>  Post</button> 
                                 </div>
                             </div>
                         </div>
@@ -219,11 +126,11 @@
                         <p>HEY SON HEUNG MIN !!! MOTHERFUCKER !!!</p>
                         <div class="w3-row-padding" style="margin:0 -16px">
                             <div>
-                                <img src="/tuanpost.jpg" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
+                                <img src="./public/img/phanPost.jpg" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
                             </div>
                         </div>
-                        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Â Like</button> 
-                        <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Â Comment</button> 
+                        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button> 
+                        <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button> 
                     </div>
 
                     <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
@@ -232,8 +139,8 @@
                         <h4>Bui Viet Thanh</h4><br>
                         <hr class="w3-clear">
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Â Like</button> 
-                        <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Â Comment</button> 
+                        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button> 
+                        <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button> 
                     </div>  
 
                     <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
@@ -244,8 +151,8 @@
                         <p>Have you seen this?</p>
                         <img src="/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Â Like</button> 
-                        <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Â Comment</button> 
+                        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button> 
+                        <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button> 
                     </div> 
 
                     <!-- End Middle Column -->
@@ -264,6 +171,7 @@
                                     <th>Status</th>
                                     <th>Challenge</th>
                                 </tr>
+                                <% int i = 1;%>
                                 <c:forEach items="${listUser}" var="u">    
                                     <c:choose>
                                         <c:when test="${u.getUsername() == user.getUsername() }">
@@ -271,7 +179,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <tr id="${u.getUsername()}">
-                                                <td><c:out value="${u.getID()}"/></td>
+                                                <td><c:out value="<%= i%>"/></td>
                                                 <td><c:out value="${u.getUsername()}"/></td>
                                                 <td><c:out value="${winningRateMap.get(u.getID())}"/> % </td>
                                                 <td class="imgStatus">
@@ -282,34 +190,40 @@
                                                         <img src="./public/img/offline.png" width="35%">
                                                     </c:if>
                                                 </td>
-                                                
-                                                 
 
-                                                <td class="button" <c:if test="${u.getStatus() == 0}">style="display:none;" </c:if> onclick="challenge('<c:out value="${u.getUsername()}"/>')" >
+                                                <td class="button1" style ="opacity: 0.3; cursor: none; display: 
+                                                    <c:if test="${u.getStatus() == 0}">
+                                                        block
+                                                    </c:if>
+
+                                                    <c:if test="${u.getStatus() == 1}">
+                                                        none
+                                                    </c:if>
+                                                    ">
+                                                    <button>OK</button>
+                                                </td>
+                                                <td class="button2" onclick="challenge('<c:out value="${u.getUsername()}"/>')" style ="opacity: 1; cursor: pointer; display: 
+                                                    <c:if test="${u.getStatus() == 0}">
+                                                        none
+                                                    </c:if>
+
+                                                    <c:if test="${u.getStatus() == 1}">
+                                                        block
+                                                    </c:if>
+                                                    ">
                                                     <button>OK</button>
                                                 </td>
                                             </tr>
                                         </c:otherwise>
                                     </c:choose>
+                                    <%i++;%>
                                 </c:forEach>
 
 
                             </table>
 
-                            <p><button class="w3-button w3-block w3-theme-l4">Info</button></p>
+                            <p><a href="ranking" style="text-decoration: none"><button class="w3-button w3-block w3-theme-l4">GO TO RANKING</button></a></p>
                         </div>
-                    </div>
-                    <br>
-
-                    <br>
-
-                    <div class="w3-card w3-round w3-white w3-padding-16 w3-center">
-                        <p>ADS</p>
-                    </div>
-                    <br>
-
-                    <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
-                        <p><i class="fa fa-bug w3-xxlarge"></i></p>
                     </div>
 
                     <!-- End Right Column -->
@@ -322,23 +236,23 @@
         </div>
         <div class="overlay overlay1">
             <div class="popup">
-               <div id = "challenge-popup"
-                <p class="infor"></p>
-                <div class="text-right">
-                    <button class="btn btn-cancel" onclick="confirmChallenge('cancel');">Cancel</button>
-                    <button class="btn btn-primary" onclick="confirmChallenge('ok');">OK</button>
+                <div id = "challenge-popup"
+                     <p class="infor"></p>
+                    <div class="text-right">
+                        <button class="btn btn-cancel" onclick="confirmChallenge('cancel');">Cancel</button>
+                        <button class="btn btn-primary" onclick="confirmChallenge('ok');">OK</button>
+                    </div>
                 </div>
-               </div>
             </div>
         </div>
-        
+
         <div class="overlay overlay2">
             <div class="popup">
                 <div id = "loading-popup"
-                <p class="loading"></p>
-                <div class="text-right">
-                    <img src="./public/img/loading.gif">
-                </div>
+                     <p class="loading"></p>
+                    <div class="text-right">
+                        <img src="./public/img/loading.gif">
+                    </div>
                 </div>
             </div>
         </div>

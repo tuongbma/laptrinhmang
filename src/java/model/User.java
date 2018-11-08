@@ -17,21 +17,31 @@ public class User {
     private String username;
     private String password;
     private int status;
+    private String image;
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public User(int ID, String name, String email, String username, String password) {
+    public User(int ID, String name, String email, String username, String password, String image) {
         this.ID = ID;
         this.name = name;
         this.email = email;
         this.username = username;
         this.password = password;
-        this.status = 0;
+        this.image = image;
     }
     
+    
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     
     public String getUsername() {
         return username;

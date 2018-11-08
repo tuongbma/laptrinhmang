@@ -10,27 +10,36 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.User;
+import websocket.UserSessionHandler;
 
 /**
  *
  * @author phantuan
  */
-public class GameController extends Controller{
-    public GameController(){
+public class GameController extends Controller {
+
+    public GameController() {
         super();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(!this.existUser(req)){
+        if (!this.existUser(req)) {
             resp.sendRedirect("login");
-        }else{
+        } else {
             GameDAO gameDAO = new GameDAO();
-            int map[][] = gameDAO.createMap(5);
-            req.setAttribute("map", map);
-            req.getRequestDispatcher("WEB-INF/game.jsp").forward(req, resp);
+            int map[][] = gameDAO.createMap(4);
+            User user = (User) req.getSession().getAttribute("user");
+            String key = (String) req.getParameter("match");
+            if (UserSessionHandler.isValidMatch(user.getUsername(), key)) {
+                req.setAttribute("map", map);
+                req.getRequestDispatcher("WEB-INF/game.jsp").forward(req, resp);
+            } else {
+                resp.sendRedirect("home");
+
+            }
         }
     }
-    
-    
+
 }
