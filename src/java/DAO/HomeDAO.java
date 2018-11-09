@@ -9,13 +9,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Match;
 import model.User;
+import utils.CommonUtils;
 import utils.DBConnection;
 
 /**
@@ -133,6 +136,7 @@ public class HomeDAO extends DBConnection {
     
     public ArrayList<Match> getMatchHistoryList(int ID) {
         Statement state;
+        String now = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
         try {
             state = this.conn.createStatement();
             String sql = " SELECT matches.*, AB.username1, AB.username2 "
@@ -160,9 +164,9 @@ public class HomeDAO extends DBConnection {
                 Match match = new Match();
                 match.setUsernamePlayer1(resultSet.getString("username1"));
                 match.setUsernamePlayer2(resultSet.getString("username2"));
-                match.setEndTime(resultSet.getString("end_time"));
-                match.setStartTime(resultSet.getString("start_time"));
-                match.setResult(resultSet.getLong("result"));
+                String time = CommonUtils.subtractTime(new Date(), resultSet.getDate("end_time") );
+                match.setTime(time);
+                match.setResult(resultSet.getInt("result"));
                 historyMatchList.add(match);
             }
             return historyMatchList;

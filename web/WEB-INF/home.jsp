@@ -8,6 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.User"%>
+<%@page import="utils.CommonUtils"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -265,13 +266,17 @@
 
                     </table>
 
-                    <p><a href="ranking" style="text-decoration: none"><button class="w3-button w3-block w3-theme-l4">GO TO RANKING</button></a></p>
+                    <!--<p><a href="ranking" style="text-decoration: none"><button class="w3-button w3-block w3-theme-l4">GO TO RANKING</button></a></p>-->
                 </div>
+                        <p><button class="w3-button w3-block w3-theme-l4" onclick="toogleHistory()">YOUR HISTORY</button></p>
+                        <div class="w3-card w3-round w3-white w3-center" style="display: none" id="historyTab">
+                            <%@include file="historyTab.jsp"%>
+                        </div>
             </div>
 
             <!-- End Right Column -->
         </div>
-
+                        
         <!-- End Grid -->
     </div>
 
@@ -300,7 +305,7 @@
     </div>
 </div>
 
-<div class="overlay overlay3" onclick = "close()">
+<div class="overlay overlay3">
     <div class="popup">
         <div id = "timeout-popup"
              <p class="loading"></p>
@@ -308,7 +313,7 @@
     </div>
 </div>                       
 
-<div class="overlay overlay4" onclick = "close()">
+<div class="overlay overlay4">
     <div class="popup">
         <div id = "refuse-popup"
              <p class="loading"></p>
@@ -343,10 +348,14 @@
         }
     }
 
-    function close(e) {
-        console.log("hello " + e);
-        e.setAttribute('display', 'none');
-    }
+    function toogleHistory() {
+                var x = document.getElementById("historyTab");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
 </script>
 <script src="./public/js/websocket.js">
 

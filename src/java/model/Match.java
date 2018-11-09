@@ -5,16 +5,22 @@
  */
 package model;
 
+import java.util.Date;
+
 /**
  *
  * @author buith
  */
 public class Match {
+
     private String usernamePlayer1;
     private String usernamePlayer2;
-    private String startTime;
-    private String endTime;
-    private Long result;
+    private Date startTime;
+    private Date endTime;
+    private int result;
+    private int idPlayer1;
+    private String time;
+    private int idPlayer2;
 
     public String getUsernamePlayer1() {
         return usernamePlayer1;
@@ -32,29 +38,52 @@ public class Match {
         this.usernamePlayer2 = usernamePlayer2;
     }
 
-    public String getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 
-    public Long getResult() {
+    public int getResult() {
         return result;
     }
 
-    public void setResult(Long result) {
+    public void setResult(int result) {
         this.result = result;
     }
-    
-    
+
+    public int getIdPlayer1() {
+        return idPlayer1;
+    }
+
+    public void setIdPlayer1(int idPlayer1) {
+        this.idPlayer1 = idPlayer1;
+    }
+
+    public int getIdPlayer2() {
+        return idPlayer2;
+    }
+
+    public void setIdPlayer2(int idPlayer2) {
+        this.idPlayer2 = idPlayer2;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
 }
