@@ -21,7 +21,7 @@ import org.json.JSONObject;
  */
 @ServerEndpoint(value = "/websocket_game")
 public class GameWebsocketEndpoint {
-
+    
     @OnOpen
     public void onOpen(Session session) {
         Map<String, List<String>> params = session.getRequestParameterMap();
