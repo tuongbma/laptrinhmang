@@ -20,8 +20,8 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import org.json.JSONObject;
 
-@ServerEndpoint(value = "/websocket")
-public class PlayerWebsocketEndpoint {
+@ServerEndpoint(value = "/websocket_home")
+public class UserWebsocketEndpoint {
 
 
     @OnOpen
@@ -62,15 +62,7 @@ public class PlayerWebsocketEndpoint {
             
             UserSessionHandler.confirm(session, confirmResult, toUser);
         }
-//        for (Session s : UserSessionHandler.mapSession.keySet()) {
-////            System.out.println(s.getId());
-//            try {
-//                if(UserSessionHandler.mapSession.get(s).equals("phantuan"))
-//                s.getBasicRemote().sendText(message);
-//            } catch (IOException ex) {
-//                Logger.getLogger(PlayerWebsocketEndpoint.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
+
     }
 
     @OnError

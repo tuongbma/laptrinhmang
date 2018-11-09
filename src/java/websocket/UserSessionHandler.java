@@ -147,4 +147,7 @@ public class UserSessionHandler {
         }
         return false;
     }
+    public static String getKey(String username){
+        return matchKey.get(username);
+    }
 }

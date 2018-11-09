@@ -128,7 +128,7 @@
             <br>
 
             <div class="w3-light-grey">
-                <div class="w3-container w3-red w3-center other-bar" style="padding: 0;height:20px;width:60%"></div>
+                <div class="w3-container w3-red w3-center other-bar" style="padding: 0;height:20px;width:0%"></div>
             </div>
         
         </div>
