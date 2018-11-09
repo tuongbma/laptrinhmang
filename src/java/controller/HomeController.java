@@ -6,6 +6,7 @@
 package controller;
 
 import DAO.HomeDAO;
+import com.sun.xml.internal.ws.api.ha.HaInfo;
 import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -46,11 +47,7 @@ public class HomeController extends Controller{
                     }
                 }
             }
-            Map<Integer,String> winningRateMap = new HashMap<>();
-            for (User u : listUser){
-                winningRateMap.put(u.getID(), homeDAO.getWinningRate(u.getID()));
-            }
-            req.setAttribute("winningRateMap", winningRateMap);
+            
             req.setAttribute("listUser", listUser);
             req.getRequestDispatcher("WEB-INF/home.jsp").forward(req, resp);
         } 

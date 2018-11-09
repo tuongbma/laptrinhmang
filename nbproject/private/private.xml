@@ -3,14 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/phantuan/NetBeansProjects/laptrinhmang/src/java/websocket/GameSessionHandler.java</file>
-            <file>file:/home/phantuan/NetBeansProjects/laptrinhmang/src/java/websocket/GameWebsocketEndpoint.java</file>
-            <file>file:/home/phantuan/NetBeansProjects/laptrinhmang/web/WEB-INF/game.jsp</file>
-            <file>file:/home/phantuan/NetBeansProjects/laptrinhmang/web/public/js/websocket.js</file>
-            <file>file:/home/phantuan/NetBeansProjects/laptrinhmang/src/java/websocket/UserSessionHandler.java</file>
-            <file>file:/home/phantuan/NetBeansProjects/laptrinhmang/web/public/js/game.js</file>
-            <file>file:/home/phantuan/NetBeansProjects/laptrinhmang/src/java/controller/GameController.java</file>
             <file>file:/home/phantuan/NetBeansProjects/laptrinhmang/src/java/websocket/UserWebsocketEndpoint.java</file>
+            <file>file:/home/phantuan/NetBeansProjects/laptrinhmang/web/public/js/websocket.js</file>
+            <file>file:/home/phantuan/NetBeansProjects/laptrinhmang/src/java/websocket/GameWebsocketEndpoint.java</file>
+            <file>file:/home/phantuan/NetBeansProjects/laptrinhmang/web/public/js/game.js</file>
+            <file>file:/home/phantuan/NetBeansProjects/laptrinhmang/src/java/websocket/UserSessionHandler.java</file>
+            <file>file:/home/phantuan/NetBeansProjects/laptrinhmang/src/java/controller/GameController.java</file>
+            <file>file:/home/phantuan/NetBeansProjects/laptrinhmang/web/WEB-INF/game.jsp</file>
+            <file>file:/home/phantuan/NetBeansProjects/laptrinhmang/nbproject/private/private.xml</file>
+            <file>file:/home/phantuan/NetBeansProjects/laptrinhmang/src/java/websocket/GameSessionHandler.java</file>
         </group>
     </open-files>
 </project-private>

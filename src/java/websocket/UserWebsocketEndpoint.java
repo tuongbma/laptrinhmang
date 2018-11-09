@@ -20,7 +20,7 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import org.json.JSONObject;
 
-@ServerEndpoint(value = "/websocket")
+@ServerEndpoint(value = "/websocket_home")
 public class UserWebsocketEndpoint {
 
 
