@@ -6,16 +6,13 @@
 package controller;
 
 import DAO.HomeDAO;
-import com.sun.xml.internal.ws.api.ha.HaInfo;
 import java.io.IOException;
-import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.Match;
 import model.User;
 import websocket.UserSessionHandler;
 
@@ -33,7 +30,7 @@ public class HomeController extends Controller{
         if(!this.existUser(req)){
             resp.sendRedirect("login");
         }else{
-            //TODO
+            User userSession =(User) req.getSession().getAttribute("user");
             HomeDAO homeDAO = new HomeDAO();
             ArrayList<User> listUser = new ArrayList<>();
             listUser = homeDAO.getListUser();
@@ -47,8 +44,9 @@ public class HomeController extends Controller{
                     }
                 }
             }
-            
+            ArrayList<Match> listHistory = homeDAO.getMatchHistoryList(userSession.getID());
             req.setAttribute("listUser", listUser);
+            req.setAttribute("listHistory", listHistory);
             req.getRequestDispatcher("WEB-INF/home.jsp").forward(req, resp);
         } 
     }

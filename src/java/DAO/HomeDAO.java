@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Match;
 import model.User;
 import utils.DBConnection;
 
@@ -117,4 +118,44 @@ public class HomeDAO extends DBConnection {
         return point;
     }
     
+    public ArrayList<Match> getMatchHistoryList(int ID) {
+        Statement state;
+        try {
+            state = this.conn.createStatement();
+            String sql = " SELECT matches.*, AB.username1, AB.username2 "
+                        + " FROM matches, "
+                    +  "( " 
+                        + " SELECT A.id, A.username AS username1, B.username AS username2 "
+                        + " FROM "  
+                        +   " ( " 
+                        +       "  SELECT matches.id, players.username " 
+                        +      "  FROM matches, players " 
+                        +       "  WHERE players.ID = matches.ID_player1 " 
+                        +   " ) A, " 
+                        +   " ( " 
+                        +       "  SELECT matches.id, players.username " 
+                        +      "  FROM  matches, players " 
+                        +       "  WHERE players.ID = matches.ID_player2 " 
+                        +   " ) B " 
+                        +       "  WHERE A.id = B.id " 
+                    + " ) AS AB  " 
+                    + " WHERE " 
+                    + " AB.id = matches.id and (matches.ID_player1 = " + ID +" OR matches.ID_player2 = " + ID +" )";
+            ResultSet resultSet = state.executeQuery(sql);
+            ArrayList<Match> historyMatchList = new ArrayList<>();
+            while(resultSet.next()) {
+                Match match = new Match();
+                match.setUsernamePlayer1(resultSet.getString("username1"));
+                match.setUsernamePlayer2(resultSet.getString("username2"));
+                match.setEndTime(resultSet.getString("end_time"));
+                match.setStartTime(resultSet.getString("start_time"));
+                match.setResult(resultSet.getLong("result"));
+                historyMatchList.add(match);
+            }
+            return historyMatchList;
+        } catch (SQLException ex) {
+            Logger.getLogger(HomeDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

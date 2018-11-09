@@ -232,8 +232,12 @@
 
 
                             </table>
-
-                            <p><a href="ranking" style="text-decoration: none"><button class="w3-button w3-block w3-theme-l4">GO TO RANKING</button></a></p>
+                </div>
+            </div>
+            <div >
+                <p><button class="w3-button w3-block w3-theme-l4" onclick="toogleHistory()">HISTORY</button></p>
+                    <div class="w3-card w3-round w3-white w3-center" id="historyTab">
+                        <%@include file="historyTab.jsp"%>
                         </div>
                     </div>
 
@@ -300,6 +304,14 @@
                     x.className += " w3-show";
                 } else {
                     x.className = x.className.replace(" w3-show", "");
+                }
+            }
+            function toogleHistory() {
+                var x = document.getElementById("historyTab");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
                 }
             }
         </script>
