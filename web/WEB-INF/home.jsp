@@ -6,11 +6,7 @@
 <%@include file="header.jsp"%>
         
 <%
-
             ArrayList<User> listUser = (ArrayList<User>) request.getAttribute("listUser");
-
-            Map<Integer, Float> winningRateMap = (Map<Integer, Float>) request.getAttribute("winningRateMap");
-//            System.out.println("Number of user = ");
 %>
         <!-- Navbar on small screens -->
         <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">
@@ -167,6 +163,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nickname</th>
+                                    <th>Point</th>
                                     <th>Winning rate</th>
                                     <th>Status</th>
                                     <th>Challenge</th>
@@ -175,13 +172,11 @@
                                 <c:forEach items="${listUser}" var="u">    
                                     <c:choose>
                                         <c:when test="${u.getUsername() == user.getUsername() }">
-
-                                        </c:when>
-                                        <c:otherwise>
-                                            <tr id="${u.getUsername()}">
+                                            <tr id="${u.getUsername()}" style="background-color: yellow">
                                                 <td><c:out value="<%= i%>"/></td>
                                                 <td><c:out value="${u.getUsername()}"/></td>
-                                                <td><c:out value="${winningRateMap.get(u.getID())}"/> % </td>
+                                                <td><c:out value="${u.getScore()}"/></td>
+                                                <td><c:out value="${u.getWinningRate()}"/> % </td>
                                                 <td class="imgStatus">
                                                     <c:if test="${u.getStatus() == 1}">
                                                         <img src="./public/img/online.png" width="35%">
@@ -190,7 +185,23 @@
                                                         <img src="./public/img/offline.png" width="35%">
                                                     </c:if>
                                                 </td>
-
+                                                <td></td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <tr id="${u.getUsername()}">
+                                                <td><c:out value="<%= i%>"/></td>
+                                                <td><c:out value="${u.getUsername()}"/></td>
+                                                <td><c:out value="${u.getScore()}"/></td>
+                                                <td><c:out value="${u.getWinningRate()}"/> % </td>
+                                                <td class="imgStatus">
+                                                    <c:if test="${u.getStatus() == 1}">
+                                                        <img src="./public/img/online.png" width="35%">
+                                                    </c:if>
+                                                    <c:if test="${u.getStatus() == 0}">
+                                                        <img src="./public/img/offline.png" width="35%">
+                                                    </c:if>
+                                                </td>
+                                                
                                                 <td class="button1" style ="opacity: 0.3; cursor: none; display: 
                                                     <c:if test="${u.getStatus() == 0}">
                                                         block
