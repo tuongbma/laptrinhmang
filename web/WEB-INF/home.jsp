@@ -194,7 +194,7 @@
 
         <!-- Right Column -->
         <div class="w3-col m5" style="max-width:450px">
-            <div class="w3-card w3-round w3-white w3-center" style="position: fixed">
+            <div class="w3-card w3-round w3-white w3-center" >
                 <div class="w3-container">
                     <p><b>TOURNAMENT RANKING</b></p>
                     <table align="center">

@@ -12,7 +12,7 @@
         <c:forEach items="${listHistory}" var="item">   
             <tr>
                 <td><c:out value="<%= j++ %>"/></td>
-                <td><c:out value="${item.getUsernamePlayer2()}"/></td>
+                <td><c:out value="${item.getRivalName()}"/></td>
                 <c:if test="${item.getResult() == user.getID()}">
                     <td>WIN</td>
                 </c:if>

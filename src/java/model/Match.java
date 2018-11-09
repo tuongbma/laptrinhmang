@@ -21,6 +21,7 @@ public class Match {
     private int idPlayer1;
     private String time;
     private int idPlayer2;
+    private String rivalName;
 
     public String getUsernamePlayer1() {
         return usernamePlayer1;
@@ -84,6 +85,14 @@ public class Match {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getRivalName() {
+        return rivalName;
+    }
+
+    public void setRivalName(String rivalName) {
+        this.rivalName = rivalName;
     }
 
 }

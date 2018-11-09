@@ -36,6 +36,10 @@ public class CommonUtils {
             else if(difference >= 60000) {
                 difference = difference/60000 ;
                 val = difference + " minute(s) ";
+            } 
+            else {
+                difference = difference/1000 ;
+                val = difference + " second(s) ";
             }
             return val;
 //        } catch (ParseException ex) {
