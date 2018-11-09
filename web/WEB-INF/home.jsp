@@ -300,7 +300,7 @@
     </div>
 </div>
 
-<div class="overlay overlay3" onclick = "close()">
+<div class="overlay overlay3">
     <div class="popup">
         <div id = "timeout-popup"
              <p class="loading"></p>
@@ -308,7 +308,7 @@
     </div>
 </div>                       
 
-<div class="overlay overlay4" onclick = "close()">
+<div class="overlay overlay4">
     <div class="popup">
         <div id = "refuse-popup"
              <p class="loading"></p>
