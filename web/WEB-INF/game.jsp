@@ -152,10 +152,10 @@
         <div class="overlay overlay1">
             <div class="popup">
                 <div id = "challenge-popup"
-                     <p class="infor"></p>
+                     <p class="infor">Wana play again???</p>
                     <div class="text-right">
-                        <button class="btn btn-cancel" onclick="confirmChallenge('cancel');">Cancel</button>
-                        <button class="btn btn-primary" onclick="confirmChallenge('ok');">OK</button>
+                        <button class="btn btn-cancel" onclick="confirmReplay('yes');">YES</button>
+                        <button class="btn btn-primary" onclick="confirmReplay('no');">NO</button>
                     </div>
                 </div>
             </div>

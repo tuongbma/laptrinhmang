@@ -23,7 +23,7 @@ public class GameSessionHandler {
 
     public static Map<Session, String> mapSession = new HashMap<>();
     public static GameDAO gameDAO = new GameDAO();
-    
+
     public static void addSession(Session session, String username) {
         mapSession.put(session, username);
     }
@@ -74,6 +74,10 @@ public class GameSessionHandler {
 
                 JSONrespone.put("result", "lose");
                 toSession.getBasicRemote().sendText(JSONrespone.toString());
+                
+                UserSessionHandler.expiredKey(fromUser);
+                UserSessionHandler.expiredKey(toUser);
+                
                 gameDAO.saveResult(fromUser, toUser, fromUser, timePlay);
             }
         } catch (IOException ex) {
@@ -82,26 +86,69 @@ public class GameSessionHandler {
     }
 
     public static void tieGame(Session fromSession, int timeMax) {
-        
+
         String fromUser = mapSession.get(fromSession);
         Session toSession = getRivalSession(fromUser);
         String toUser = mapSession.get(toSession);
-        if(UserSessionHandler.getKey(toUser) != null){
+        if (UserSessionHandler.getKey(toUser).charAt(0) != '-') {
             JSONObject JSONrespone = new JSONObject();
             JSONrespone.put("type", "result");
 
             JSONrespone.put("result", "tie");
-            try {            
+            try {
                 toSession.getBasicRemote().sendText(JSONrespone.toString());
                 fromSession.getBasicRemote().sendText(JSONrespone.toString());
-                UserSessionHandler.removeKey(fromUser);
-                UserSessionHandler.removeKey(toUser);
+                UserSessionHandler.expiredKey(fromUser);
+                UserSessionHandler.expiredKey(toUser);
                 gameDAO.saveResult(fromUser, toUser, "tie", timeMax);
 
             } catch (IOException ex) {
                 Logger.getLogger(GameSessionHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }           
+        }
+    }
+    public static void refusePlay(Session session, String isAlert){
+        try {
+            System.out.println("refused with alert: " + isAlert);
+            JSONObject JSONrespone = new JSONObject();
+            JSONrespone.put("type", "refusePlay");
+            JSONrespone.put("isAlert", isAlert);
+            session.getBasicRemote().sendText(JSONrespone.toString());
+        } catch (IOException ex) {
+            System.out.println("refused exception!!!!!!!!!!!!!!!!!!");
+            Logger.getLogger(GameSessionHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public static void replay(Session fromSession, String result) {
+        String fromUser = mapSession.get(fromSession);
+        Session toSession = getRivalSession(fromUser);
+        String toUser = mapSession.get(toSession);
+        if (result.equals("no")) {
+            System.out.println("refused");
+            refusePlay(toSession, "yes");            
+            refusePlay(fromSession, "no");
+
+        } else {
+            if (UserSessionHandler.getKey(fromUser).charAt(0) == '-') {
+                //first 'yes' confirm
+                System.out.println("---------First 'yes'");
+                UserSessionHandler.generateMatchKey(fromUser, toUser);
+            } else {
+                System.out.println("----Second 'yes'");
+                try {
+                    //second 'yes' confirm -> start new game
+                    String key = UserSessionHandler.getKey(toUser);
+                    JSONObject JSONrespone = new JSONObject();
+                    JSONrespone.put("type", "replay");
+                    JSONrespone.put("key", key);
+                    fromSession.getBasicRemote().sendText(JSONrespone.toString());
+                    toSession.getBasicRemote().sendText(JSONrespone.toString());
+
+                } catch (IOException ex) {
+                    Logger.getLogger(GameSessionHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
     }
 
 }

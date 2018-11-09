@@ -133,6 +133,12 @@ public class UserSessionHandler {
         return sb.toString();
     }
 
+    public static void generateMatchKey(String user1, String user2) {
+        String key = generateMatchKey(10);
+        matchKey.put(user1, key);
+        matchKey.put(user2, key);
+    }
+
     public static boolean isValidMatch(String username, String key) {
         int cnt = 0;
         if (matchKey.get(username) != null && matchKey.get(username).equals(key)) {
@@ -147,11 +153,21 @@ public class UserSessionHandler {
         }
         return false;
     }
-    public static String getKey(String username){
+
+    public static String getKey(String username) {
         return matchKey.get(username);
     }
 
     public static void removeKey(String user) {
         matchKey.remove(user);
     }
+
+    public static void expiredKey(String user) {
+        String key = matchKey.get(user);
+        System.out.println("before expired :" + key);
+        matchKey.put(user, "-" + key);
+                System.out.println("after expired:" + matchKey.get(user));
+
+    }
+
 }

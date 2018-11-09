@@ -9,7 +9,7 @@ var maxValue = $(".map > .row > div").length;
 
 var username = document.getElementById("username").innerHTML;
 // WEB Socket
-var wsUri = "ws://localhost:8080/laptrinhmang/websocket_game?username=" + username;
+var wsUri = "ws://192.168.43.140:8080/laptrinhmang/websocket_game?username=" + username;
 websocket = new WebSocket(wsUri);
 
 //Connected to server
@@ -41,7 +41,21 @@ websocket.onmessage = function (ev) {
         }else{
             alert("Tie!!!!!")
         }
-    } 
+        playedAgain();
+    }else if(data['type'] == 'replay'){
+        window.location = "game?match=" + data['key'];
+    }else if(data['type'] == 'refusePlay'){
+        console.log(data)
+
+        if(data['isAlert'] == 'yes'){
+            alert("Your rival refused to replay!!!");
+        }
+        setTimeout(function (){
+            window.location = "home";
+
+        }, 1000);
+        
+    }
 };
 
 //Error
@@ -51,7 +65,7 @@ websocket.onerror = function (ev) {
 
 
 
-var time_max = 20;
+var time_max = 10;
 var time_play = 0;
 var inter = setInterval(function () {
     time_play += 1;
@@ -93,3 +107,15 @@ $(".row > div").click(function () {
 });
 
 
+function playedAgain(){
+    $(".overlay1").css("display", "block");
+}
+
+function confirmReplay(result){
+    $(".overlay1").css("display", "none");
+    var data = {
+        'type': 'replay',
+        'result': result
+    }
+    websocket.send(JSON.stringify(data));
+}
