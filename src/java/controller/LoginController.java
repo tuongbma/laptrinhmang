@@ -42,7 +42,6 @@ public class LoginController extends Controller {
 
         User user = new User(userName, password);
         
-        
         if(loginDAO.checkLogin(user)){
             request.getSession().setAttribute("user", user);
             response.sendRedirect("home");

@@ -18,7 +18,7 @@ public class User {
     private String password;
     private int status;
     private String image;
-    private int score;
+    private float score;
     private float winningRate;
 
     public User(String username, String password) {
@@ -26,7 +26,7 @@ public class User {
         this.password = password;
     }
 
-    public User(int ID, String name, String email, String username, String password, String image, int score, float winningRate) {
+    public User(int ID, String name, String email, String username, String password, String image, float score, float winningRate) {
         this.ID = ID;
         this.name = name;
         this.email = email;
@@ -94,7 +94,7 @@ public class User {
         this.status = status;
     }
 
-    public int getScore() {
+    public float getScore() {
         return score;
     }
 

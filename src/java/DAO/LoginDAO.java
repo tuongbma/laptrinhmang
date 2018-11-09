@@ -27,6 +27,9 @@ public class LoginDAO extends DBConnection{
             while (rs.next()) {
                 if (user.getUsername().equals(rs.getString("username")) && user.getPassword().equals(rs.getString("password"))) {
                     user.setImage(rs.getString("image"));
+                    user.setName(rs.getString("name"));
+                    user.setEmail(rs.getString("email"));
+                    user.setID(rs.getInt("ID"));
                     return true;
                 }
             }
