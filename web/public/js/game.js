@@ -9,7 +9,7 @@ var maxValue = $(".map > .row > div").length;
 
 var username = document.getElementById("username").innerHTML;
 // WEB Socket
-var wsUri = "ws://192.168.43.140:8080/laptrinhmang/websocket_game?username=" + username;
+var wsUri = "ws://localhost:8080/laptrinhmang/websocket_game?username=" + username;
 websocket = new WebSocket(wsUri);
 
 //Connected to server
