@@ -118,9 +118,9 @@
             </div>
         </div>
         
-                <div class="clock">
-                    Time Left: 50s
-                </div>
+        <div class="clock">
+            Time Remain: 60s
+        </div>
         <div class="current-status"> 
             <div class="w3-light-grey">
                 <div class="w3-container w3-green w3-center your-bar" style="padding: 0;height:20px;width:0%"></div>
@@ -149,7 +149,28 @@
 
             %>
 
-        
+        <div class="overlay overlay1">
+            <div class="popup">
+                <div id = "challenge-popup"
+                     <p class="infor"></p>
+                    <div class="text-right">
+                        <button class="btn btn-cancel" onclick="confirmChallenge('cancel');">Cancel</button>
+                        <button class="btn btn-primary" onclick="confirmChallenge('ok');">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        <div class="overlay overlay2">
+            <div class="popup">
+                <div id = "loading-popup"
+                     <p class="loading"></p>
+                    <div class="text-right">
+                        <img src="./public/img/loading.gif">
+                    </div>
+                </div>
+            </div>
+        </div>
         <script src="./public/js/game.js"></script>
     </body>
 </html>

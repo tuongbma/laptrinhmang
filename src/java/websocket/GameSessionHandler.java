@@ -5,6 +5,7 @@
  */
 package websocket;
 
+import DAO.GameDAO;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +22,8 @@ import static websocket.UserSessionHandler.mapSession;
 public class GameSessionHandler {
 
     public static Map<Session, String> mapSession = new HashMap<>();
-
+    public static GameDAO gameDAO = new GameDAO();
+    
     public static void addSession(Session session, String username) {
         mapSession.put(session, username);
     }
@@ -51,31 +53,55 @@ public class GameSessionHandler {
         return null;
     }
 
-    public static void update(Session fromSession, int currentValue, int maxValue) {
+    public static void updateGame(Session fromSession, int currentValue, int maxValue, int timePlay) {
         try {
             String fromUser = mapSession.get(fromSession);
             JSONObject JSONrespone = new JSONObject();
             JSONrespone.put("type", "update");
             JSONrespone.put("currentValue", currentValue);
             Session toSession = getRivalSession(fromUser);
+            String toUser = mapSession.get(toSession);
             toSession.getBasicRemote().sendText(JSONrespone.toString());
             if (currentValue == maxValue) {
                 System.out.println("END GAMEEEEEEEEEE");
                 JSONrespone.put("type", "result");
                 // send to winner
-                JSONrespone.put("isWin", "yes");
+                JSONrespone.put("result", "win");
                 fromSession.getBasicRemote().sendText(JSONrespone.toString());
 
                 JSONrespone = new JSONObject();
                 JSONrespone.put("type", "result");
 
-                JSONrespone.put("isWin", "no");
+                JSONrespone.put("result", "lose");
                 toSession.getBasicRemote().sendText(JSONrespone.toString());
-
+                gameDAO.saveResult(fromUser, toUser, fromUser, timePlay);
             }
         } catch (IOException ex) {
             Logger.getLogger(GameSessionHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static void tieGame(Session fromSession, int timeMax) {
+        
+        String fromUser = mapSession.get(fromSession);
+        Session toSession = getRivalSession(fromUser);
+        String toUser = mapSession.get(toSession);
+        if(UserSessionHandler.getKey(toUser) != null){
+            JSONObject JSONrespone = new JSONObject();
+            JSONrespone.put("type", "result");
+
+            JSONrespone.put("result", "tie");
+            try {            
+                toSession.getBasicRemote().sendText(JSONrespone.toString());
+                fromSession.getBasicRemote().sendText(JSONrespone.toString());
+                UserSessionHandler.removeKey(fromUser);
+                UserSessionHandler.removeKey(toUser);
+                gameDAO.saveResult(fromUser, toUser, "tie", timeMax);
+
+            } catch (IOException ex) {
+                Logger.getLogger(GameSessionHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }           
     }
 
 }
