@@ -13,37 +13,37 @@ import utils.DBConnection;
  *
  * @author phantuan
  */
-public class GameDAO extends DBConnection {
+public class GameDAO  {
 
     public GameDAO() {
 
     }
 
-    public int[][] createMap(int size) {
+    public int[][] createMap(String key, int size) {
         ArrayList<Integer> list = new ArrayList<Integer>();
         for (int i = 1; i <= size*size; i++) {
             list.add(i);
         }
         int[][] map = new int[size][size];
 
-        Random rand = new Random();
-        
+        while(key.length() < size*size){
+            key += key;
+        }
         for (int i = 0; i < size; i++) {
             String s = "";
             for (int j = 0; j < size; j++) {
-                int index = rand.nextInt(list.size());
+                int c = (int) key.charAt(i*size + j);
+                int index = c % list.size();
                 map[i][j] = list.get(index);
                 list.remove(index);
                 s += "-" + map[i][j];
-        
             }
             System.out.println(s);
         }
 
         return map;
     }
-    
-    public void saveResult(String user1, String user2, String winUser){
-        
+    public void saveResult(String user1, String user2, String winUser, int timePlay){
+       
     }
 }

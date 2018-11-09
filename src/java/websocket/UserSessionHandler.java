@@ -150,4 +150,8 @@ public class UserSessionHandler {
     public static String getKey(String username){
         return matchKey.get(username);
     }
+
+    public static void removeKey(String user) {
+        matchKey.remove(user);
+    }
 }

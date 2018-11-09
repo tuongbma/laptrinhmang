@@ -6,6 +6,7 @@ var maxValue = $(".map > .row > div").length;
 
 
 
+
 var username = document.getElementById("username").innerHTML;
 // WEB Socket
 var wsUri = "ws://localhost:8080/laptrinhmang/websocket_game?username=" + username;
@@ -31,11 +32,14 @@ websocket.onmessage = function (ev) {
         var percent = parseInt(100 * otherCurrentValue / maxValue);
         $(".other-bar").css("width", percent + "%");
     }else if(data['type'] == 'result'){
-        console.log("result " + data['isWin'])
-        if(data['isWin'] == 'yes'){
+        clearInterval(inter);
+        console.log("result " + data['result'])
+        if(data['result'] == 'win'){
             alert("You win!!!!!");
-        }else{
+        }else if(data['result'] == 'lose'){
             alert("You lose!!!!")
+        }else{
+            alert("Tie!!!!!")
         }
     } 
 };
@@ -47,6 +51,21 @@ websocket.onerror = function (ev) {
 
 
 
+var time_max = 20;
+var time_play = 0;
+var inter = setInterval(function () {
+    time_play += 1;
+    time_remain =  time_max - time_play;
+    $(".clock").text("Time Remain: "+ time_remain +"s");
+    if(time_remain == 0){
+        clearInterval(inter);
+        var data = {
+            'type': 'timeup',
+            'time_max': time_max
+        };
+        websocket.send(JSON.stringify(data));
+    }
+}, 1000);
 
 
 $(".row > div").click(function () {
@@ -60,7 +79,8 @@ $(".row > div").click(function () {
         var data = {
             'type': 'update',
             'currentValue': thisCurrentValue,
-            'maxValue': maxValue
+            'maxValue': maxValue,
+            'time_play': time_play
         }
         websocket.send(JSON.stringify(data))
     } else {
@@ -71,3 +91,5 @@ $(".row > div").click(function () {
     }
 
 });
+
+

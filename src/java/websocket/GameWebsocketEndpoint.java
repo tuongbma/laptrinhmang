@@ -48,9 +48,12 @@ public class GameWebsocketEndpoint {
         String type = jsonObject.getString("type");
         if (type.equals("update")) {
             int currentValue = jsonObject.getInt("currentValue");
-            int maxValue = jsonObject.getInt("maxValue");
-            
-            GameSessionHandler.update(session, currentValue, maxValue);
+            int maxValue = jsonObject.getInt("maxValue");            
+            int timePlay = jsonObject.getInt("time_play");
+            GameSessionHandler.updateGame(session, currentValue, maxValue, timePlay);
+        }else if(type.equals("timeup")){
+            int timeMax = jsonObject.getInt("time_max");
+            GameSessionHandler.tieGame(session, timeMax);
         }
     }
 
