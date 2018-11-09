@@ -18,21 +18,24 @@ public class User {
     private String password;
     private int status;
     private String image;
+    private int score;
+    private float winningRate;
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public User(int ID, String name, String email, String username, String password, String image) {
+    public User(int ID, String name, String email, String username, String password, String image, int score, float winningRate) {
         this.ID = ID;
         this.name = name;
         this.email = email;
         this.username = username;
         this.password = password;
         this.image = image;
+        this.score = score;
+        this.winningRate = winningRate;
     }
-    
     
     public String getImage() {
         return image;
@@ -90,6 +93,22 @@ public class User {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public float getWinningRate() {
+        return winningRate;
+    }
+
+    public void setWinningRate(float winningRate) {
+        this.winningRate = winningRate;
+    }
     
-   
+    
 }
