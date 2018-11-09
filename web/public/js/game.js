@@ -29,9 +29,15 @@ websocket.onmessage = function (ev) {
     if (data['type'] == 'update') {
         otherCurrentValue = parseInt(data['currentValue']);
         var percent = parseInt(100 * otherCurrentValue / maxValue);
-
         $(".other-bar").css("width", percent + "%");
-    }
+    }else if(data['type'] == 'result'){
+        console.log("result " + data['isWin'])
+        if(data['isWin'] == 'yes'){
+            alert("You win!!!!!");
+        }else{
+            alert("You lose!!!!")
+        }
+    } 
 };
 
 //Error
@@ -53,7 +59,6 @@ $(".row > div").click(function () {
         $(".your-bar").css("width", percent + "%");
         var data = {
             'type': 'update',
-            'fromUser': username,
             'currentValue': thisCurrentValue,
             'maxValue': maxValue
         }

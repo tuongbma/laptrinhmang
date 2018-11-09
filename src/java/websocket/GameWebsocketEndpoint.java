@@ -47,11 +47,10 @@ public class GameWebsocketEndpoint {
         JSONObject jsonObject = new JSONObject(message);
         String type = jsonObject.getString("type");
         if (type.equals("update")) {
-            String fromUser = jsonObject.getString("fromUser");
             int currentValue = jsonObject.getInt("currentValue");
             int maxValue = jsonObject.getInt("maxValue");
-
-            GameSessionHandler.update(fromUser, currentValue, maxValue);
+            
+            GameSessionHandler.update(session, currentValue, maxValue);
         }
     }
 

@@ -19,8 +19,9 @@ import static websocket.UserSessionHandler.mapSession;
  * @author phantuan
  */
 public class GameSessionHandler {
+
     public static Map<Session, String> mapSession = new HashMap<>();
-    
+
     public static void addSession(Session session, String username) {
         mapSession.put(session, username);
     }
@@ -28,7 +29,7 @@ public class GameSessionHandler {
     public static void remove(Session session) {
         mapSession.remove(session);
     }
-    
+
     public static Session getSessionByUsername(String userName) {
         for (Session s : mapSession.keySet()) {
             String temp = mapSession.get(s);
@@ -38,31 +39,43 @@ public class GameSessionHandler {
         }
         return null;
     }
-    
-    public static Session getRivalSession(String fromUsername){
+
+    public static Session getRivalSession(String fromUsername) {
         String key = UserSessionHandler.getKey(fromUsername);
         for (Session s : mapSession.keySet()) {
             String other = mapSession.get(s);
-            if(!other.equals(fromUsername) && UserSessionHandler.getKey(other).equals(key)){
+            if (!other.equals(fromUsername) && UserSessionHandler.getKey(other).equals(key)) {
                 return s;
             }
         }
         return null;
     }
-    
-    public static void update(String fromUser, int currentValue, int maxValue) {
+
+    public static void update(Session fromSession, int currentValue, int maxValue) {
         try {
+            String fromUser = mapSession.get(fromSession);
             JSONObject JSONrespone = new JSONObject();
             JSONrespone.put("type", "update");
-            JSONrespone.put("fromUser", fromUser);
             JSONrespone.put("currentValue", currentValue);
-            JSONrespone.put("maxValue", maxValue);
             Session toSession = getRivalSession(fromUser);
             toSession.getBasicRemote().sendText(JSONrespone.toString());
+            if (currentValue == maxValue) {
+                System.out.println("END GAMEEEEEEEEEE");
+                JSONrespone.put("type", "result");
+                // send to winner
+                JSONrespone.put("isWin", "yes");
+                fromSession.getBasicRemote().sendText(JSONrespone.toString());
+
+                JSONrespone = new JSONObject();
+                JSONrespone.put("type", "result");
+
+                JSONrespone.put("isWin", "no");
+                toSession.getBasicRemote().sendText(JSONrespone.toString());
+
+            }
         } catch (IOException ex) {
             Logger.getLogger(GameSessionHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-   
+
 }

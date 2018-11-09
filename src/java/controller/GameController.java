@@ -29,7 +29,7 @@ public class GameController extends Controller {
             resp.sendRedirect("login");
         } else {
             GameDAO gameDAO = new GameDAO();
-            int map[][] = gameDAO.createMap(4);
+            int map[][] = gameDAO.createMap(3);
             User user = (User) req.getSession().getAttribute("user");
             String key = (String) req.getParameter("match");
             if (UserSessionHandler.isValidMatch(user.getUsername(), key)) {
