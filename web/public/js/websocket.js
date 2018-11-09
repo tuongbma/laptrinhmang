@@ -7,7 +7,7 @@
 var username = document.getElementById("username").innerHTML;
 var stop = 0;
 // WEB Socket
-var wsUri = "ws://192.168.43.239:8080/laptrinhmang/websocket?username=" + username;
+var wsUri = "ws://192.168.43.239:8080/laptrinhmang/websocket_home?username=" + username;
 console.log(wsUri);
 websocket = new WebSocket(wsUri);
 
@@ -25,7 +25,6 @@ var fromUser;
 var key;
 //Message Receved
 websocket.onmessage = function (ev) {
-
     var data = JSON.parse(ev.data);
     if (data['type'] == 'challenge') {
         fromUser = data['fromUser'];
@@ -33,8 +32,7 @@ websocket.onmessage = function (ev) {
         $("#challenge-popup > p").text("Challenge from " + fromUser);
         $(".overlay1").css("display", "block");
         window.setTimeout(function () {
-            if (stop == 0) {
-                console.log("timeout");
+            if (stop == 0) {     
                 var data = {
                     "type": "confirm",
                     "confirmResult": "timeout",
@@ -47,13 +45,22 @@ websocket.onmessage = function (ev) {
         }, 5000);
     } else if (data['type'] == 'confirm') {
         $(".overlay2").css("display", "none");
-
         if (data['confirmResult'] == 'yes')
             window.location = "game?match=" + data['key'];
-        else if (data['confirmResult'] == 'no')
-            alert("Challenge Denied !!!");
-        else if (data['confirmResult'] == 'timeout')
-            alert("Challenge Timeout !!!");
+       else if (data['confirmResult'] == 'no'){
+            $("#refuse-popup > p").text("Challenge request denied !!!");
+            $(".overlay4").css("display", "block");
+            $(".overlay4").click(function (){
+                $(".overlay4").css("display", "none");
+            });
+        }
+        else if (data['confirmResult'] == 'timeout'){
+            $("#timeout-popup > p").text("Time out !!! No response.");
+            $(".overlay3").css("display", "block");
+            $(".overlay3").click(function (){
+                $(".overlay3").css("display", "none");
+            });
+        }
     } else if (data['type'] == 'toggleStatus') {
         var toggleUser = data['toggleUser'];
         if ($("#" + toggleUser + " > .button1").css("display") == "block") {

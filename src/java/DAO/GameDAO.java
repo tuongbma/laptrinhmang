@@ -42,4 +42,8 @@ public class GameDAO extends DBConnection {
 
         return map;
     }
+    
+    public void saveResult(String user1, String user2, String winUser){
+        
+    }
 }
