@@ -29,6 +29,7 @@ public class LoginDAO extends DBConnection{
                     user.setImage(rs.getString("image"));
                     user.setName(rs.getString("name"));
                     user.setEmail(rs.getString("email"));
+                    user.setID(rs.getInt("ID"));
                     return true;
                 }
             }
