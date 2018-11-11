@@ -16,8 +16,8 @@ public class Match {
     private String usernamePlayer1;
     private String usernamePlayer2;
     private Date startTime;
-    private Date endTime;
-    private int result;
+    private String endTime;
+    private String result;
     private int idPlayer1;
     private String time;
     private int idPlayer2;
@@ -47,19 +47,19 @@ public class Match {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
-    public int getResult() {
+    public String getResult() {
         return result;
     }
 
-    public void setResult(int result) {
+    public void setResult(String result) {
         this.result = result;
     }
 

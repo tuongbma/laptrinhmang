@@ -54,6 +54,9 @@ public class GameWebsocketEndpoint {
         }else if(type.equals("timeup")){
             int timeMax = jsonObject.getInt("time_max");
             GameSessionHandler.tieGame(session, timeMax);
+        }else if(type.equals("replay")){
+            String result = jsonObject.getString("result");
+            GameSessionHandler.replay(session, result);
         }
     }
 

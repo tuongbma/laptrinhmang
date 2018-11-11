@@ -9,20 +9,12 @@
             <th>Time</th>
         </tr>
         <% int j = 1; %>
-        <c:forEach items="${listHistory}" var="item">   
+        <c:forEach items="${listHistory}" var="match">   
             <tr>
                 <td><c:out value="<%= j++ %>"/></td>
-                <td><c:out value="${item.getRivalName()}"/></td>
-                <c:if test="${item.getResult() == user.getID()}">
-                    <td>WIN</td>
-                </c:if>
-                <c:if test="${item.getResult() != user.getID()}">
-                    <td>LOSE</td>
-                </c:if>
-                <c:if test="${item.getResult() == 0}">
-                    <td>TIE</td>
-                </c:if>
-                <td><c:out value="${item.getTime()}"/> ago</td>
+                <td><c:out value="${match.getRivalName()}"/></td>
+                <td><c:out value="${match.getResult()}"/></td>
+                <td><c:out value="${match.getTime()}"/> ago</td>
         </tr>
         </c:forEach>
     </table>

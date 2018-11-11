@@ -7,6 +7,7 @@
 var username = document.getElementById("username").innerHTML;
 var stop = 0;
 // WEB Socket
+
 var wsUri = "ws://localhost:8080/laptrinhmang/websocket_home?username=" + username;
 console.log(wsUri);
 websocket = new WebSocket(wsUri);

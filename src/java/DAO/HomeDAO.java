@@ -133,40 +133,36 @@ public class HomeDAO extends DBConnection {
         }
         return point;
     }
-    
+
     public ArrayList<Match> getMatchHistoryList(int ID) {
         Statement state;
         String now = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
         try {
             state = this.conn.createStatement();
-            String sql = " SELECT matches.*, AB.username1, AB.username2 "
-                        + " FROM matches, "
-                    +  "( " 
-                        + " SELECT A.id, A.username AS username1, B.username AS username2 "
-                        + " FROM "  
-                        +   " ( " 
-                        +       "  SELECT matches.id, players.username " 
-                        +      "  FROM matches, players " 
-                        +       "  WHERE players.ID = matches.ID_player1 " 
-                        +   " ) A, " 
-                        +   " ( " 
-                        +       "  SELECT matches.id, players.username " 
-                        +      "  FROM  matches, players " 
-                        +       "  WHERE players.ID = matches.ID_player2 " 
-                        +   " ) B " 
-                        +       "  WHERE A.id = B.id " 
-                    + " ) AS AB  " 
-                    + " WHERE " 
-                    + " AB.id = matches.id and (matches.ID_player1 = " + ID +" OR matches.ID_player2 = " + ID +" )";
-            ResultSet resultSet = state.executeQuery(sql);
+            String sql = "  SELECT mat.ID AS matchId, "
+                            + " CASE p1.id "
+                                + " WHEN "+ ID +" THEN p2.username "
+                                + " ELSE p1.username  "
+                            + " END AS rivalName, "
+                            + " TIME_TO_SEC(TIMEDIFF(NOW(), mat.end_time)) AS endTime, "
+                            + " CASE mat.result " 
+                            + " WHEN "+ ID +" THEN 'WIN' "
+                            + " WHEN 0 THEN 'TIE' "
+                            + " ELSE 'LOSE' "
+                            + " END as result "
+                        + " FROM matches mat"
+                        + " INNER JOIN players p1 ON mat.ID_player1 = p1.id"
+                        + " INNER JOIN players p2 ON mat.ID_player2 = p2.id  "
+                        + " WHERE mat.ID_player1= "+ ID +" OR mat.ID_player2 = "+ ID
+                        + " ORDER BY mat.end_time DESC ";
+            ResultSet rs = state.executeQuery(sql);
             ArrayList<Match> historyMatchList = new ArrayList<>();
-            while(resultSet.next()) {
+            while(rs.next()) {
                 Match match = new Match();
-                match.setUsernamePlayer1(resultSet.getString("username1"));
-                match.setUsernamePlayer2(resultSet.getString("username2"));
-                String time = CommonUtils.subtractTime(new Date(), resultSet.getDate("end_time") );
+                match.setRivalName(rs.getString("rivalName"));
+                String time = CommonUtils.convertTime(rs.getLong("endTime") );
                 match.setTime(time);
-                match.setResult(resultSet.getInt("result"));
+                match.setResult(rs.getString("result"));
                 historyMatchList.add(match);
             }
             return historyMatchList;

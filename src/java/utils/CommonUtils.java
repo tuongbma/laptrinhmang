@@ -5,46 +5,34 @@
  */
 package utils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author buith
  */
 public class CommonUtils {
-    public static String subtractTime(Date highTime, Date lowTime) {
-        System.out.println(highTime + " low:" + lowTime);
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//        try {
-           
-            
-            Long difference = highTime.getTime() - lowTime.getTime();
+    public static String convertTime(Long difference) {
             System.out.println(difference);
             String val = "";
-            if(difference >= 86400000 ) {
-                difference = difference/86400000 ;
-                val = difference + " day(s) ";
+            if(difference >= 86400 ) {
+                difference = difference/86400 ;
+                if(difference > 30) {
+                    val = "Long time ";
+                } else {
+                    val = difference + " day(s) ";
+                }
             } 
-            else if(difference >= 3600000) {
-                difference = difference/3600000;
+            else if(difference >= 3600) {
+                difference = difference/3600;
                 val = difference + " hour(s) ";
             } 
-            else if(difference >= 60000) {
-                difference = difference/60000 ;
+            else if(difference >= 60) {
+                difference = difference/60 ;
                 val = difference + " minute(s) ";
             } 
             else {
-                difference = difference/1000 ;
+                difference = difference;
                 val = difference + " second(s) ";
             }
             return val;
-//        } catch (ParseException ex) {
-//            Logger.getLogger(CommonUtils.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return null;
     }
 }
