@@ -66,7 +66,19 @@
                 background: rgba(0,0,0,.85);
                 z-index: 10000;
             }
+            table {
+              counter-reset: rowNumber;
+            }
 
+            table tr:not(#firstRow) {
+              counter-increment: rowNumber;
+            }
+
+            table tr:not(#firstRow) td:first-child::before {
+              content: counter(rowNumber);
+              min-width: 1em;
+              margin-right: 0.5em;
+            }
 
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -192,48 +204,48 @@
             <!-- End Middle Column -->
         </div>
 
-        <!-- Right Column -->
-        <div class="w3-col m5" style="max-width:450px">
-            <div class="w3-card w3-round w3-white w3-center" >
-                <div class="w3-container">
-                    <p><b>TOURNAMENT RANKING</b></p>
-                    <table align="center">
-                        <tr>
-                            <th>No</th>
-                            <th>Nickname</th>
-                            <th>Point</th>
-                            <th>Winning rate</th>
-                            <th>Status</th>
-                            <th>Challenge</th>
-                        </tr>
-                        <% int i = 1;%>
-                        <c:forEach items="${listUser}" var="u">    
-                            <c:choose>
-                                <c:when test="${u.getUsername() == user.getUsername() }">
-                                    <tr id="${u.getUsername()}" style="background-color: yellow">
-                                        <td><c:out value="<%= i%>"/></td>
-                                        <td><c:out value="${u.getUsername()}"/></td>
-                                        <td><c:out value="${u.getScore()}"/></td>
-                                        <td><c:out value="${u.getWinningRate()}"/> % </td>
-                                        <td class="imgStatus">
-                                            <img src="./public/img/online.png" width="35%">
-                                        </td>
-                                        <td></td>
-                                    </c:when>
-                                    <c:otherwise>
-                                    <tr id="${u.getUsername()}">
-                                        <td><c:out value="<%= i%>"/></td>
-                                        <td><c:out value="${u.getUsername()}"/></td>
-                                        <td><c:out value="${u.getScore()}"/></td>
-                                        <td><c:out value="${u.getWinningRate()}"/> % </td>
-                                        <td class="imgStatus">
-                                            <c:if test="${u.getStatus() == 1}">
-                                                <img src="./public/img/online.png" width="35%">
-                                            </c:if>
-                                            <c:if test="${u.getStatus() == 0}">
-                                                <img src="./public/img/offline.png" width="35%">
-                                            </c:if>
-                                        </td>
+                <!-- Right Column -->
+                <div class="w3-col m5" style="max-width:450px">
+                    <div class="w3-card w3-round w3-white w3-center" >
+                        <div class="w3-container">
+                            <p><b>TOURNAMENT RANKING</b></p>
+                            <table align="center" id="rankingTable">
+                                <tr id="firstRow">
+                                    <th>No</th>
+                                    <th onclick="sortTable(1)">Nickname</th>
+                                    <th onclick="sortTable(2)">Point</th>
+                                    <th onclick="sortTable(3)">Winning rate</th>
+                                    <th>Status</th>
+                                    <th>Challenge</th>
+                                </tr>
+                               
+                                <c:forEach items="${listUser}" var="u">    
+                                    <c:choose>
+                                        <c:when test="${u.getUsername() == user.getUsername() }">
+                                            <tr id="${u.getUsername()}" style="background-color: yellow">
+                                                <td></td>
+                                                <td><c:out value="${u.getUsername()}"/></td>
+                                                <td><c:out value="${u.getScore()}"/></td>
+                                                <td><c:out value="${u.getWinningRate()}"/> % </td>
+                                                <td class="imgStatus">
+                                                    <img src="./public/img/online.png" width="35%">
+                                                </td>
+                                                <td></td>
+                                            </c:when>
+                                            <c:otherwise>
+                                            <tr id="${u.getUsername()}">
+                                                <td></td>
+                                                <td><c:out value="${u.getUsername()}"/></td>
+                                                <td><c:out value="${u.getScore()}"/></td>
+                                                <td><c:out value="${u.getWinningRate()}"/> % </td>
+                                                <td class="imgStatus">
+                                                    <c:if test="${u.getStatus() == 1}">
+                                                        <img src="./public/img/online.png" width="35%">
+                                                    </c:if>
+                                                    <c:if test="${u.getStatus() == 0}">
+                                                        <img src="./public/img/offline.png" width="35%">
+                                                    </c:if>
+                                                </td>
 
                                         <td class="button1" style ="opacity: 0.3; cursor: none; display: 
                                             <c:if test="${u.getStatus() == 0}">
@@ -260,7 +272,6 @@
                                     </tr>
                                 </c:otherwise>
                             </c:choose>
-                            <%i++;%>
                         </c:forEach>
 
 
@@ -348,7 +359,7 @@
         }
     }
 
-    function toogleHistory() {
+            function toogleHistory() {
                 var x = document.getElementById("historyTab");
                 if (x.style.display === "none") {
                     x.style.display = "block";
@@ -356,8 +367,48 @@
                     x.style.display = "none";
                 }
             }
-</script>
-<script src="./public/js/websocket.js">
+
+            function sortTable(n) {
+                var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                table = document.getElementById("rankingTable");
+                switching = true;
+                dir = "asc";
+                while (switching) {
+                    switching = false;
+                    rows = table.rows;
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        shouldSwitch = false;
+                        x = rows[i].getElementsByTagName("TD")[n];
+                        y = rows[i + 1].getElementsByTagName("TD")[n];
+                        if (dir == "asc") {
+                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        } else if (dir == "desc") {
+                            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (shouldSwitch) {
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                        switchcount++;
+                    } else {
+                        if (switchcount == 0 && dir == "asc") {
+                            dir = "desc";
+                            switching = true;
+                        }
+                    }
+                }
+            }
+            $(function() {
+                sortTable(1);
+            });
+        </script>
+        <script src="./public/js/websocket.js">
 
 </script>
 </html>
