@@ -86,7 +86,7 @@ public class HomeDAO extends DBConnection {
             }
             if (sumMatches != 0) {
                 float temp = (float) winMatches / sumMatches;
-                DecimalFormat decimalFormat = new DecimalFormat("#.00");
+                DecimalFormat decimalFormat = new DecimalFormat("#.0");
                 if (temp == 0) {
                     return 0;
                 }

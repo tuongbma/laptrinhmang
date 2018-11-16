@@ -79,7 +79,9 @@
               min-width: 1em;
               margin-right: 0.5em;
             }
-
+            td, th {
+                text-align: center;
+            }
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </head>
@@ -212,11 +214,11 @@
                             <table align="center" id="rankingTable">
                                 <tr id="firstRow">
                                     <th>No</th>
-                                    <th onclick="sortTable(1)">Nickname</th>
-                                    <th onclick="sortTable(2)">Point</th>
-                                    <th onclick="sortTable(3)">Winning rate</th>
+                                    <th onclick="sortTable(1)" style="cursor: pointer;"> Nickname <span> <img src="./public/img/arrow.jpg" width="15%"> </span></th>
+                                    <th onclick="sortTable(2)" style="cursor: pointer;"><span>Point <img src="./public/img/arrow.jpg" width="35%"> </span></th>
+                                    <th onclick="sortTable(3)" style="cursor: pointer;">Win rate <span> <img src="./public/img/arrow.jpg" width="35%"> </span></th>
                                     <th>Status</th>
-                                    <th>Challenge</th>
+                                    <th style="text-align: center;"><img src="./public/img/images.jpg" width="50%"></th>
                                 </tr>
                                
                                 <c:forEach items="${listUser}" var="u">    
@@ -225,9 +227,9 @@
                                             <tr id="${u.getUsername()}" style="background-color: yellow">
                                                 <td></td>
                                                 <td><c:out value="${u.getUsername()}"/></td>
-                                                <td><c:out value="${u.getScore()}"/></td>
-                                                <td><c:out value="${u.getWinningRate()}"/> % </td>
-                                                <td class="imgStatus">
+                                                <td style="text-align: center;"><c:out value="${u.getScore()}"/></td>
+                                                <td style="text-align: center;"><c:out value="${u.getWinningRate()}"/> % </td>
+                                                <td class="imgStatus" style="text-align: center;">
                                                     <img src="./public/img/online.png" width="35%">
                                                 </td>
                                                 <td></td>
@@ -236,9 +238,9 @@
                                             <tr id="${u.getUsername()}">
                                                 <td></td>
                                                 <td><c:out value="${u.getUsername()}"/></td>
-                                                <td><c:out value="${u.getScore()}"/></td>
-                                                <td><c:out value="${u.getWinningRate()}"/> % </td>
-                                                <td class="imgStatus">
+                                                <td style="text-align: center;"><c:out value="${u.getScore()}"/></td>
+                                                <td style="text-align: center;"><c:out value="${u.getWinningRate()}"/> % </td>
+                                                <td class="imgStatus" style="text-align: center;">
                                                     <c:if test="${u.getStatus() == 1}">
                                                         <img src="./public/img/online.png" width="35%">
                                                     </c:if>
@@ -404,9 +406,6 @@
                     }
                 }
             }
-            $(function() {
-                sortTable(1);
-            });
         </script>
         <script src="./public/js/websocket.js">
 

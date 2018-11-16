@@ -41,15 +41,6 @@ http://java.sun.com/jsp/jstl/core"
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
     
-    <servlet>
-        <servlet-name>ranking</servlet-name>
-        <servlet-class>controller.RankingController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ranking</servlet-name>
-        <url-pattern>/ranking</url-pattern>
-    </servlet-mapping>
-    
     
 <!--     <servlet>
         <servlet-name>websocket</servlet-name>
