@@ -9,7 +9,7 @@ var maxValue = $(".map > .row > div").length;
 
 var username = document.getElementById("username").innerHTML;
 // WEB Socket
-var wsUri = "ws://localhost:8080/laptrinhmang/websocket_game?username=" + username;
+var wsUri = "ws://192.168.98.103:8080/laptrinhmang/websocket_game?username=" + username;
 websocket = new WebSocket(wsUri);
 
 //Connected to server
@@ -53,7 +53,7 @@ websocket.onmessage = function (ev) {
         setTimeout(function (){
             window.location = "home";
 
-        }, 1000);
+        }, 500);
         
     }
 };
@@ -65,7 +65,7 @@ websocket.onerror = function (ev) {
 
 
 
-var time_max = 10;
+var time_max = 30;
 var time_play = 0;
 var inter = setInterval(function () {
     time_play += 1;

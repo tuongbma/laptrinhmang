@@ -32,7 +32,7 @@ public class GameController extends Controller {
             User user = (User) req.getSession().getAttribute("user");
             String key = (String) req.getParameter("match");
             if (UserSessionHandler.isValidMatch(user.getUsername(), key)) {
-                int map[][] = gameDAO.createMap(key, 3);
+                int map[][] = gameDAO.createMap(key, 4);
 
                 req.setAttribute("map", map);
                 req.getRequestDispatcher("WEB-INF/game.jsp").forward(req, resp);

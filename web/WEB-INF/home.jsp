@@ -215,8 +215,8 @@
                                 <tr id="firstRow">
                                     <th>No</th>
                                     <th onclick="sortTable(1)" style="cursor: pointer;"> Nickname <span> <img src="./public/img/arrow.jpg" width="15%"> </span></th>
-                                    <th onclick="sortTable(2)" style="cursor: pointer;"><span>Point <img src="./public/img/arrow.jpg" width="35%"> </span></th>
-                                    <th onclick="sortTable(3)" style="cursor: pointer;">Win rate <span> <img src="./public/img/arrow.jpg" width="35%"> </span></th>
+                                    <th onclick="sortTable(2)" style="cursor: pointer;"><span>Point <img src="./public/img/arrow.jpg" width="25%"> </span></th>
+                                    <th onclick="sortTable(3)" style="cursor: pointer;">Win rate <span> <img src="./public/img/arrow.jpg" width="25%"> </span></th>
                                     <th>Status</th>
                                     <th style="text-align: center;"><img src="./public/img/images.jpg" width="50%"></th>
                                 </tr>
